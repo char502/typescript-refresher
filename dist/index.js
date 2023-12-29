@@ -82,4 +82,96 @@ ride1.start();
 let ride2 = new Ride();
 ride2.start();
 console.log(Ride.activeRides);
+class Person {
+    constructor(firstName, lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+    get fullName() {
+        return this.firstName + ' ' + this.lastName;
+    }
+    walk() {
+        console.log('walking');
+    }
+}
+class Student extends Person {
+    constructor(studentId, firstName, lastName) {
+        super(firstName, lastName);
+        this.studentId = studentId;
+    }
+    takeTest() {
+        console.log('Taking a test');
+    }
+}
+let student = new Student(1, 'John', 'Smith');
+console.log(student.fullName);
+console.log(student.walk());
+class Teacher extends Person {
+    get fullName() {
+        return `Professor ${super.fullName}`;
+    }
+}
+let teacher = new Teacher('John', 'Smith');
+console.log(teacher.fullName);
+class Principal extends Person {
+    get fullName() {
+        return `Principal ${super.fullName}`;
+    }
+}
+printNames([
+    new Student(1, 'Katie', 'Butler'),
+    new Teacher('Albert', 'Einstein'),
+    new Principal('Mary', 'Smith'),
+]);
+function printNames(people) {
+    for (let person of people) {
+        console.log(person.fullName);
+    }
+}
+class PersonProtExample {
+    constructor(firstName, lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+    get fullName() {
+        return this.firstName + ' ' + this.lastName;
+    }
+}
+class StudentProtExample extends PersonProtExample {
+    constructor(studentId, firstName, lastName) {
+        super(firstName, lastName);
+        this.studentId = studentId;
+    }
+    takeTest() {
+        console.log('Taking a test');
+    }
+}
+class Shape {
+    constructor(color) {
+        this.color = color;
+    }
+    render() {
+    }
+}
+class Circle extends Shape {
+    constructor(radius, color) {
+        super(color);
+        this.radius = radius;
+    }
+    render() {
+        console.log('Rendering a circle');
+    }
+}
+let shape = new Shape('red');
+shape.render();
+class ShapeAbs {
+    constructor(color) {
+        this.color = color;
+    }
+}
+class Calendar {
+    constructor(name) {
+        this.name = name;
+    }
+}
 //# sourceMappingURL=index.js.map
