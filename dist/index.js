@@ -1,177 +1,114 @@
 "use strict";
-class Account {
-    constructor(id, owner, balance, nickname) {
-        this.id = id;
-        this.owner = owner;
-        this.balance = balance;
-        this.nickname = nickname;
-    }
-    deposit(amount) {
-        if (amount <= 0) {
-            throw new Error('Invalid amount');
-        }
-        this.balance += amount;
+class KeyValuePair {
+    constructor(key, value) {
+        this.key = key;
+        this.value = value;
     }
 }
-let account = new Account(1, 'Mosh', 0);
-let accountNick = new Account(1, 'Mosh', 0, 'teacher');
-account.deposit(100);
-console.log(account.balance);
-console.log(account);
-console.log(accountNick);
-console.log(typeof account);
-console.log(account instanceof Account);
-class AccountTwo {
-    constructor(id, owner, balance, nickname) {
-        this.id = id;
-        this.owner = owner;
-        this._balance = balance;
-        this.nickname = nickname;
-    }
-    deposit(amount) {
-        if (amount <= 0) {
-            throw new Error('Invalid amount');
-        }
-        this._balance += amount;
-    }
-    getBalance() {
-        return this._balance;
+let pair = new KeyValuePair(1, 'Apple');
+class StringKeyValuePair {
+    constructor(key, value) {
+        this.key = key;
+        this.value = value;
     }
 }
-let accountSecondExample = new AccountTwo(2, 'Char', 150);
-console.log(accountSecondExample.getBalance());
-class AccountThree {
-    constructor(id, owner, _balance, nickname) {
-        this.id = id;
-        this.owner = owner;
-        this._balance = _balance;
-        this.nickname = nickname;
-    }
-    deposit(amount) {
-        if (amount <= 0) {
-            throw new Error('Invalid amount');
-        }
-        this._balance += amount;
-    }
-    get balance() {
-        return this._balance;
+let pairWithKeyString = new StringKeyValuePair('1', 'Apple');
+class KeyValuePairGeneric {
+    constructor(key, value) {
+        this.key = key;
+        this.value = value;
     }
 }
-let accountThirdExample = new AccountThree(2, 'Darwin', 200);
-console.log(accountThirdExample.balance);
-class SeatAssignment {
+let pairGenericStringNumber = new KeyValuePairGeneric('1', 5);
+let pairStringNumberNoArgs = new KeyValuePairGeneric(7, 'aString');
+function wrapInArray(value) {
+    return [value];
 }
-let seats = new SeatAssignment();
-seats.A1 = 'Mosh';
-seats['A1'] = '5';
-seats.A2 = 'John';
-class Ride {
-    start() {
-        Ride._activeRides++;
-    }
-    stop() {
-        Ride._activeRides--;
-    }
-    static get activeRides() {
-        return Ride._activeRides;
+let numArr = wrapInArray(1);
+function wrapInArrayGeneric(value) {
+    return [value];
+}
+let genStrArr = wrapInArrayGeneric('a');
+let genNumArr = wrapInArrayGeneric(2);
+class ArrayUtils {
+    wrapInArrayGenMethod(value) {
+        return [value];
     }
 }
-Ride._activeRides = 0;
-let ride1 = new Ride();
-ride1.start();
-let ride2 = new Ride();
-ride2.start();
-console.log(Ride.activeRides);
-class Person {
-    constructor(firstName, lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-    }
-    get fullName() {
-        return this.firstName + ' ' + this.lastName;
-    }
-    walk() {
-        console.log('walking');
+let utils = new ArrayUtils();
+class ArrayUtilsStat {
+    static wrapInArrayStaticMethod(value) {
+        return [value];
     }
 }
-class Student extends Person {
-    constructor(studentId, firstName, lastName) {
-        super(firstName, lastName);
-        this.studentId = studentId;
-    }
-    takeTest() {
-        console.log('Taking a test');
-    }
+let utilsStat = ArrayUtilsStat.wrapInArrayStaticMethod(5);
+function fetch(url) {
+    console.log(url);
+    return { data: null, error: null };
 }
-let student = new Student(1, 'John', 'Smith');
-console.log(student.fullName);
-console.log(student.walk());
-class Teacher extends Person {
-    get fullName() {
-        return `Professor ${super.fullName}`;
-    }
+let result = fetch('url');
+function echo(value) {
+    return value;
 }
-let teacher = new Teacher('John', 'Smith');
-console.log(teacher.fullName);
-class Principal extends Person {
-    get fullName() {
-        return `Principal ${super.fullName}`;
-    }
+echo(false);
+function echoLimitedType(value) {
+    return value;
 }
-printNames([
-    new Student(1, 'Katie', 'Butler'),
-    new Teacher('Albert', 'Einstein'),
-    new Principal('Mary', 'Smith'),
-]);
-function printNames(people) {
-    for (let person of people) {
-        console.log(person.fullName);
-    }
+echoLimitedType(8);
+function echoObjLimitedType(value) {
+    return value;
 }
-class PersonProtExample {
-    constructor(firstName, lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-    }
-    get fullName() {
-        return this.firstName + ' ' + this.lastName;
-    }
+echoObjLimitedType({ name: 'Bob' });
+function echoInterfaceLimitedType(value) {
+    return value;
 }
-class StudentProtExample extends PersonProtExample {
-    constructor(studentId, firstName, lastName) {
-        super(firstName, lastName);
-        this.studentId = studentId;
-    }
-    takeTest() {
-        console.log('Taking a test');
-    }
-}
-class Shape {
-    constructor(color) {
-        this.color = color;
-    }
-    render() {
-    }
-}
-class Circle extends Shape {
-    constructor(radius, color) {
-        super(color);
-        this.radius = radius;
-    }
-    render() {
-        console.log('Rendering a circle');
-    }
-}
-let shape = new Shape('red');
-shape.render();
-class ShapeAbs {
-    constructor(color) {
-        this.color = color;
-    }
-}
-class Calendar {
+echoInterfaceLimitedType({ name: 'Jane' });
+class PersonClassExample {
     constructor(name) {
         this.name = name;
     }
 }
+class CustomerClassExample extends PersonClassExample {
+}
+function echoClassLimitedType(value) {
+    return value;
+}
+echo(new PersonClassExample('h'));
+echo(new CustomerClassExample('j'));
+class Store {
+    constructor() {
+        this._objects = [];
+    }
+    add(obj) {
+        this._objects.push(obj);
+    }
+}
+class CompressibleStore extends Store {
+    compress() {
+    }
+}
+let store = new CompressibleStore();
+store.compress;
+class SearchableStoreWConstraint extends Store {
+    find(name) {
+        return this._objects.find((obj) => obj.name === name);
+    }
+}
+class ProductStore extends Store {
+    filterByCategory(category) {
+        console.log(category);
+        return [];
+    }
+}
+class StoreWKOf {
+    constructor() {
+        this._objectsWKOf = [];
+    }
+    addWKOf(obj) {
+        this._objectsWKOf.push(obj);
+    }
+}
+let storeWKOf = new StoreWKOf();
+storeWKOf.addWKOf({ name: 'a', price: 1 });
+console.log(storeWKOf);
 //# sourceMappingURL=index.js.map
