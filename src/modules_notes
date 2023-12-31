@@ -1,0 +1,102 @@
+// ------------------------------------------------------------
+// import { CircleMod as MyCircle } from './shapes';
+// When importing a default export, no longer need the braces
+// Use braces for other named/non-default exports like the format Enum
+// ------------------------------------------------------------
+// import Store, { Format } from './storage';
+// ------------------------------------------------------------
+// Now that these have been imported, can use them just like before
+
+// ===================
+// ===================
+// Modules
+// ===================
+// ===================
+
+// Use modules to organise your code
+
+// ===================
+// Exporting and Importing
+// ===================
+
+// So far, all code written in just 1 x file
+// Not how real world applications
+// As code grows,
+// Maintaining these large files gets harder and harder
+// So, should split our code into different files or modules, each serving a purpose
+
+// Just like how we organise our kitchenware in different cabinets and containers
+
+// ------------------------------------------------------------
+// ------------------------------------------------------------
+
+// Put into a new file called shapes.ts
+
+// These classes are currently only accessible within the shapes module
+// So cannot use them anywhere else, unless we export them
+
+// class CircleMod {
+//   constructor(public radius: number) {}
+// }
+
+// class SquareMod {
+//   constructor(public radius: number) {}
+// }
+
+// ------------------------------------------------------------
+// ------------------------------------------------------------
+
+// Now imported:
+// let circle = new MyCircle(1);
+// console.log(circle.radius);
+// ------------------------------------------------------------
+
+// if pres 'cmd' and '.' will get the option to move this to a new file
+// interface ProdMod {
+//   name: string;
+// }
+
+// ===================
+// Module Formats
+// ===================
+
+// JS didn't always have a module system
+
+// Starting with es2015 or es6
+// modules have become natively supported in JavaScript
+// this format pretty much supported in all browsers and JavaScript runtimes
+
+// ===================
+// Default Exports
+// ===================
+
+// Sometimes want to export just a single thing from a module
+// In those cases, it is better to use a default export
+
+// ===================
+// Wildcard Imports
+// ===================
+
+// Sometimes, need quite a few objects from a module
+// Importing them one-by-one can be a bit of a hassle
+
+// Can use wildcard import to simplify the code
+
+// ----------------------------------------
+// import * as Shapes from "./shapes";
+// ----------------------------------------
+
+// now importing all the exported objects from this module
+// And putting them inside a bucket or a container called 'Shapes'
+
+// And use them like this
+// let circle = new Shapes.Circle(1)
+
+// ===================
+// Re-exporting
+// ===================
+
+// Can have a single module combining the exports of different modules
+// Have an index.ts in the shapes folder combining all the imports
+
+// import { CircleMod, SquareMod } from './shapes';
