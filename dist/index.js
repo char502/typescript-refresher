@@ -1,114 +1,150 @@
 "use strict";
-class KeyValuePair {
-    constructor(key, value) {
-        this.key = key;
-        this.value = value;
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+class ComponentBaseClass {
+    insertInDom() { }
+}
+class ProfileComponentExtend extends ComponentBaseClass {
+}
+function Component(constructor) {
+    console.log('Component decorator called');
+    constructor.prototype.uniqueId = Date.now();
+    constructor.prototype.insertInDOM = () => {
+        console.log('Inserting the component in the DOM');
+    };
+}
+function ComponentParamExample(value) {
+    return (constructor) => {
+        console.log('Component decorator called');
+        constructor.prototype.options = value;
+        constructor.prototype.uniqueId = Date.now();
+        constructor.prototype.insertInDOM = () => {
+            console.log('Inserting the component in the DOM');
+        };
+    };
+}
+function ComponentParamAngular(options) {
+    return (constructor) => {
+        console.log('Component decorator called');
+        constructor.prototype.options = options;
+        constructor.prototype.uniqueId = Date.now();
+        constructor.prototype.insertInDOM = () => {
+            console.log('Inserting the component in the DOM');
+        };
+    };
+}
+function Pipe(constructor) {
+    console.log('Pipe decorator called');
+    constructor.prototype.pipe = true;
+}
+let ProfileComponentAngular = class ProfileComponentAngular {
+};
+ProfileComponentAngular = __decorate([
+    ComponentParamAngular({ selector: '#my-profile' }),
+    Pipe
+], ProfileComponentAngular);
+function LogBefore(target, methodName, descriptor) {
+    const original = descriptor.value;
+    descriptor.value = function (message) {
+        console.log('Before');
+        original.call(this, message);
+        console.log('After');
+    };
+}
+class PersonMethDecs {
+    say(message) {
+        console.log('Person says ' + message);
     }
 }
-let pair = new KeyValuePair(1, 'Apple');
-class StringKeyValuePair {
-    constructor(key, value) {
-        this.key = key;
-        this.value = value;
+__decorate([
+    LogBefore
+], PersonMethDecs.prototype, "say", null);
+let personDecExample = new PersonMethDecs();
+personDecExample.say('Hello');
+function LogFlexibleParams(target, methodName, descriptor) {
+    const original = descriptor.value;
+    descriptor.value = function (...args) {
+        console.log('Before');
+        original.call(this, ...args);
+        console.log('After');
+    };
+}
+class PersonMethFlexParams {
+    say(message, something, somethingElse) {
+        console.log('Person says ' + message, something, somethingElse);
     }
 }
-let pairWithKeyString = new StringKeyValuePair('1', 'Apple');
-class KeyValuePairGeneric {
-    constructor(key, value) {
-        this.key = key;
-        this.value = value;
+__decorate([
+    LogFlexibleParams
+], PersonMethFlexParams.prototype, "say", null);
+let personDecFlexParamsExample = new PersonMethFlexParams();
+personDecFlexParamsExample.say('Hello', 8, true);
+function Capitalize(target, methodName, descriptor) {
+    const originalMethod = descriptor.get;
+    descriptor.get = function () {
+        const result = originalMethod.call(this);
+        return typeof result === 'string' ? result.toUpperCase() : result;
+    };
+}
+class PersonAccessDec {
+    constructor(firstName, lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+    get fullName() {
+        return `${this.firstName} ${this.lastName}`;
     }
 }
-let pairGenericStringNumber = new KeyValuePairGeneric('1', 5);
-let pairStringNumberNoArgs = new KeyValuePairGeneric(7, 'aString');
-function wrapInArray(value) {
-    return [value];
+__decorate([
+    Capitalize
+], PersonAccessDec.prototype, "fullName", null);
+let personAccExample = new PersonAccessDec('johnny', 'black');
+console.log(personAccExample.fullName);
+function MinLength(length) {
+    return (target, propertyName) => {
+        let value;
+        const descriptor = {
+            get() {
+                return value;
+            },
+            set(newValue) {
+                if (newValue.length < length) {
+                    throw new Error(`${propertyName} should be at least ${length} characters long.`);
+                }
+                value = newValue;
+            },
+        };
+        Object.defineProperty(target, propertyName, descriptor);
+    };
 }
-let numArr = wrapInArray(1);
-function wrapInArrayGeneric(value) {
-    return [value];
-}
-let genStrArr = wrapInArrayGeneric('a');
-let genNumArr = wrapInArrayGeneric(2);
-class ArrayUtils {
-    wrapInArrayGenMethod(value) {
-        return [value];
+class UserPropDecExample {
+    constructor(password) {
+        this.password = password;
     }
 }
-let utils = new ArrayUtils();
-class ArrayUtilsStat {
-    static wrapInArrayStaticMethod(value) {
-        return [value];
-    }
+__decorate([
+    MinLength(4)
+], UserPropDecExample.prototype, "password", void 0);
+let userPropDec = new UserPropDecExample('kjdp');
+const watchedParameters = [];
+function Watch(target, methodName, parameterIndex) {
+    watchedParameters.push({
+        methodName,
+        parameterIndex,
+    });
 }
-let utilsStat = ArrayUtilsStat.wrapInArrayStaticMethod(5);
-function fetch(url) {
-    console.log(url);
-    return { data: null, error: null };
+class Vehicle {
+    move(speed) { }
 }
-let result = fetch('url');
-function echo(value) {
-    return value;
-}
-echo(false);
-function echoLimitedType(value) {
-    return value;
-}
-echoLimitedType(8);
-function echoObjLimitedType(value) {
-    return value;
-}
-echoObjLimitedType({ name: 'Bob' });
-function echoInterfaceLimitedType(value) {
-    return value;
-}
-echoInterfaceLimitedType({ name: 'Jane' });
-class PersonClassExample {
-    constructor(name) {
-        this.name = name;
-    }
-}
-class CustomerClassExample extends PersonClassExample {
-}
-function echoClassLimitedType(value) {
-    return value;
-}
-echo(new PersonClassExample('h'));
-echo(new CustomerClassExample('j'));
-class Store {
-    constructor() {
-        this._objects = [];
-    }
-    add(obj) {
-        this._objects.push(obj);
-    }
-}
-class CompressibleStore extends Store {
-    compress() {
-    }
-}
-let store = new CompressibleStore();
-store.compress;
-class SearchableStoreWConstraint extends Store {
-    find(name) {
-        return this._objects.find((obj) => obj.name === name);
-    }
-}
-class ProductStore extends Store {
-    filterByCategory(category) {
-        console.log(category);
-        return [];
-    }
-}
-class StoreWKOf {
-    constructor() {
-        this._objectsWKOf = [];
-    }
-    addWKOf(obj) {
-        this._objectsWKOf.push(obj);
-    }
-}
-let storeWKOf = new StoreWKOf();
-storeWKOf.addWKOf({ name: 'a', price: 1 });
-console.log(storeWKOf);
+__decorate([
+    __param(0, Watch)
+], Vehicle.prototype, "move", null);
+console.log(watchedParameters);
 //# sourceMappingURL=index.js.map
