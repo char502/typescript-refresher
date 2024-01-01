@@ -33,6 +33,6 @@ export enum Format {
 //
 // -----------------------------------------------------------
 
-class Compressor {}
+// class Compressor {}
 
-class Encryptor {}
+// class Encryptor {}
